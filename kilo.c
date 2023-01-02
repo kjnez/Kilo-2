@@ -1,6 +1,7 @@
 /* Includes */
 #include <asm-generic/errno-base.h>
 #include <asm-generic/ioctls.h>
+#include <stddef.h>
 #include <unistd.h>
 #include <termios.h>
 #include <stdlib.h>
@@ -163,16 +164,27 @@ int getWindowSize(int *rows, int *cols)
 }
 
 /* file i/o */
-void editorOpen()
+void editorOpen(char *filename)
 {
-  char *line = "Hello, world!";
-  ssize_t linelen = 13;
+  FILE *fp = fopen(filename, "r");
+  if (!fp) die("fopen");
 
-  E.row.size = linelen;
-  E.row.chars = malloc(linelen + 1);
-  memcpy(E.row.chars, line, linelen);
-  E.row.chars[linelen] = '\0';
-  E.numrows = 1;
+  char *line = NULL;
+  size_t linecap = 0;
+  ssize_t linelen;
+  linelen = getline(&line, &linecap, fp);
+  if (linelen != -1) {
+    while (linelen > 0 && (line[linelen - 1] == '\n' ||
+			   line[linelen - 1] == '\r'))
+      linelen--;
+    E.row.size = linelen;
+    E.row.chars = malloc(linelen + 1);
+    memcpy(E.row.chars, line, linelen);
+    E.row.chars[linelen] = '\0';
+    E.numrows = 1;
+  }
+  free(line);
+  fclose(fp);
 }
 
 /* append buffer */
@@ -321,11 +333,12 @@ void initEditor()
     die("getWindowSize");
 }
 
-int main()
+int main(int argc, char **argv)
 {
   enableRawMode();
   initEditor();
-  editorOpen();
+  if (argc >= 2)
+    editorOpen(argv[1]);
 
   while (1) {
     editorRefreshScreen();
