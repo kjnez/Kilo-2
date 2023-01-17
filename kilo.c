@@ -181,7 +181,7 @@ void editorUpdateRow(erow *row)
   for (j = 0; j < row->size; j++)
     row->render[idx++] = row->chars[j];
   row->render[idx] = '\0';
-  row->size = idx;
+  row->rsize = idx;
 }
 
 void editorAppendRow(char *s, size_t len)
