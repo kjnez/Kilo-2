@@ -244,6 +244,7 @@ void editorRowInsertChar(erow *row, int at, int c)
   row->size++;
   row->chars[at] = c;
   editorUpdateRow(row);
+  E.dirty++;
 }
 
 /* editor operations */
