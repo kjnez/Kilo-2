@@ -14,6 +14,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <errno.h>
+#include <time.h>
 
 /* defines */
 #define KILO_VERSION "0.0.1"
@@ -52,6 +53,8 @@ struct editorConfig {
   int numrows;
   erow *row;
   char *filename;
+  char statusmsg[80];
+  time_t statusmsg_time;
   struct termios orig_termios;
 } E;
 
@@ -457,6 +460,8 @@ void initEditor()
   E.numrows = 0;
   E.row = NULL;
   E.filename = NULL;
+  E.statusmsg[0] = '\0';
+  E.statusmsg_time = 0;
 
   if (getWindowSize(&E.screenrows, &E.screencols) == -1)
     die("getWindowSize");
