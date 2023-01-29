@@ -580,7 +580,7 @@ void editorDrawRows(struct abuf *ab)
 	if (hl[j] == HL_NORMAL) {
 	  if (current_color != -1) {
 	    abAppend(ab, "\x1b[39m", 5);
-	    abAppend(ab, &c[j], 1);
+	    current_color = -1;
 	  }
 	} else {
 	  int color = editorSyntaxToColor(hl[j]);
