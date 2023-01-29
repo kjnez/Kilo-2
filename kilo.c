@@ -4,19 +4,19 @@
 #define _GNU_SOURCE
 #include <asm-generic/errno-base.h>
 #include <asm-generic/ioctls.h>
+#include <ctype.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <stdarg.h>
 #include <stddef.h>
-#include <unistd.h>
-#include <termios.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <errno.h>
+#include <termios.h>
 #include <time.h>
-#include <fcntl.h>
+#include <unistd.h>
 
 /* defines */
 #define KILO_VERSION "0.0.1"
@@ -203,6 +203,14 @@ void editorUpdateSyntax(erow *row)
   for (i = 0; i < row->rsize; i++) {
     if (isdigit(row->render[i]))
       row->hl[i] = HL_NUMBER;
+  }
+}
+
+int editorSyntaxToColor(int hl)
+{
+  switch (hl) {
+  case HL_NUMBER: return 31;
+  default: return 37;
   }
 }
 
