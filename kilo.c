@@ -38,6 +38,11 @@ enum editorKey {
   PAGE_DOWN
 };
 
+enum editorHighlight {
+  HL_NORMAL = 0,
+  HL_NUMBER
+};
+
 /* Data */
 /* struct termios orig_termios; */
 typedef struct {
