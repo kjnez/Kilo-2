@@ -582,6 +582,7 @@ void editorDrawRows(struct abuf *ab)
 	    abAppend(ab, "\x1b[39m", 5);
 	    current_color = -1;
 	  }
+	  abAppend(ab, &c[j], 1);
 	} else {
 	  int color = editorSyntaxToColor(hl[j]);
 	  if (color != current_color) {
