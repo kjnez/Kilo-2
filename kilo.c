@@ -233,7 +233,7 @@ void editorUpdateSyntax(erow *row)
 
   if (E.syntax == NULL) return;
 
-  char *scs = E.syntax->singleline_comment_start; /* singleline comment style */
+  char *scs = E.syntax->singleline_comment_start; /* singleline comment start */
   int scs_len = scs ? strlen(scs) : 0;
   
   int prev_sep = 1;
@@ -246,7 +246,7 @@ void editorUpdateSyntax(erow *row)
 
     if (scs_len && !in_string) {
       if (!strncmp(&row->render[i], scs, scs_len)) {
-	memset(&row->hl[i], HL_COMMENT, row->size - i);
+	memset(&row->hl[i], HL_COMMENT, row->rsize - i);
 	break;
       }
     }
