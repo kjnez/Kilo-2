@@ -232,6 +232,9 @@ void editorUpdateSyntax(erow *row)
   memset(row->hl, HL_NORMAL, row->rsize);
 
   if (E.syntax == NULL) return;
+
+  char *scs = E.syntax->singleline_comment_start; /* singleline comment style */
+  int scs_len = scs ? strlen(scs) : 0;
   
   int prev_sep = 1;
   int in_string = 0;
@@ -240,6 +243,13 @@ void editorUpdateSyntax(erow *row)
   while (i < row->rsize) {
     char c = row->render[i];
     unsigned char prev_hl = (i > 0) ? row->hl[i - 1] : HL_NORMAL;
+
+    if (scs_len && !in_string) {
+      if (!strncmp(&row->render[i], scs, scs_len)) {
+	memset(&row->hl[i], HL_COMMENT, row->size - i);
+	break;
+      }
+    }
 
     if (E.syntax->flags & HL_HIGHLIGHT_STRINGS) {
       if (in_string) {
