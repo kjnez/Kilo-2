@@ -101,12 +101,25 @@ char *C_HL_keywords[] = {
   "void|", NULL
 };
 
+char *Scheme_HL_extensions[] = {".scm", NULL};
+
+char *Scheme_HL_keywords[] = {
+  "access", "and", "begin", "bkpt", "case", "cond", "cons-stream", "declare", "default-object?", "define", "define-integrable", "define-macro", "define-structure", "define-syntax", "delay", "do", "fluid-let", "if", "in-package", "lambda", "let", "let*", "let-syntax", "letrec", "local-declare", "macro", "make-environment", "named-lambda", "or", "quasiquote", "quote", "scode-quote", "sequence", "set!", "the-environment", "unassigned?", "using-syntax", NULL
+};
+
 struct editorSyntax HLDB[] = {
   {
     "c",
     C_HL_extensions,
     C_HL_keywords,
     "//", "/*", "*/",
+    HL_HIGHLIGHT_NUMBERS | HL_HIGHLIGHT_STRINGS
+  },
+  {
+    "scheme",
+    Scheme_HL_extensions,
+    Scheme_HL_keywords,
+    ";", "#|", "|#",
     HL_HIGHLIGHT_NUMBERS | HL_HIGHLIGHT_STRINGS
   },
 };
